@@ -4,24 +4,66 @@ let greetInputEl;
 let greetMsgEl;
 
 async function greet() {
-  
+
   let canvas = document.getElementById("canvas");
+  let ctx = canvas.getContext("2d");
   
   setInterval(async () => {
-    let ctx = canvas.getContext("2d");
     let a = await invoke("update_birds");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
- 
     ctx.canvas.width  = 500;
     ctx.canvas.height = 500;
-    
-    for (let i = 0; i < a.length; i++) {
-      ctx.beginPath();
-      ctx.arc(a[i][0], a[i][1], 3, 0, 2 * Math.PI);
-      ctx.fillStyle = 'red';
-      ctx.stroke();
+    // for every bird in 50 px radius of a bird, add a line
+    // for(let i = 0; i < a.length; i++) {
+    //   for(let j = 0; j < a.length; j++) {
+    //     if(i != j) {
+    //       let dx = a[i][0] - a[j][0];
+    //       let dy = a[i][1] - a[j][1];
+    //       let dist = Math.sqrt(dx*dx + dy*dy);
+    //       if(dist < 50) {
+    //         ctx.beginPath();
+    //         ctx.moveTo(a[i][0], a[i][1]);
+    //         ctx.lineTo(a[j][0], a[j][1]);
+    //         ctx.strokeStyle = `rgb(1,1,1)`;
+    //         ctx.stroke();
+    //       }
+    //     }
+    //   }
+    // }
 
+    for(let i = 0; i < a.length; i++) {
+      let count = 0;
+      for(let j = 0; j < a.length; j++) {
+        if(i != j) {
+          let dx = a[i][0] - a[j][0];
+          let dy = a[i][1] - a[j][1];
+          let dist = Math.sqrt(dx*dx + dy*dy);
+          if(dist < 50) {
+            count++;
+            ctx.beginPath();
+            ctx.moveTo(a[i][0], a[i][1]);
+            ctx.lineTo(a[j][0], a[j][1]);
+            ctx.strokeStyle = `rgba(1,1,1, ${0.01*count})`;
+            ctx.stroke();
+          }
+        }
+      }
+
+      ctx.beginPath();
+      ctx.arc(a[i][0], a[i][1], 1, 0, 2 * Math.PI);
+      ctx.fillStyle = `rgb(${count*10},0,0)`;
+      ctx.fill();
+
+
+     
     }
+
+
+    // for (let i = 0; i < a.length; i++) {
+    //   ctx.beginPath();
+    //   ctx.arc(a[i][0], a[i][1], 5, 0, 2 * Math.PI);
+    //   // ctx.fillStyle = `rgb(1,1,1)`;
+    //   ctx.fill();
+    // }
 
   }, 10);
 }

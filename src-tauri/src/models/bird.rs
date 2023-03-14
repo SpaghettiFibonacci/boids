@@ -1,6 +1,6 @@
-const SPEED_LIMIT: f32 = 4.0;
-const VISUAL_RANGE: f32 = 52.0;
-const MIN_DISTANCE: f32 = 34.0;
+const SPEED_LIMIT: f32 = 1.0;
+const VISUAL_RANGE: f32 = 20.0;
+const MIN_DISTANCE: f32 = 30.0;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Bird {
@@ -19,12 +19,10 @@ impl Bird {
         let mut y = 0.0;
         let mut count = 0;
         for bird in birds {
-            if (bird.x - self.x).abs() < VISUAL_RANGE && (bird.y - self.y).abs() < VISUAL_RANGE {
-                // use alignment weight
-                x += bird.dx;
-                y += bird.dy;
-                count += 1;
-            }
+            // use alignment weight
+            x += bird.dx * 2.5;
+            y += bird.dy * 2.5;
+            count += 1;
         }
         if count > 0 {
             (x / count as f32, y / count as f32)
@@ -37,11 +35,9 @@ impl Bird {
         let mut y = 0.0;
         let mut count = 0;
         for bird in birds {
-            if (bird.x - self.x).abs() < VISUAL_RANGE && (bird.y - self.y).abs() < VISUAL_RANGE {
-                x += bird.x;
-                y += bird.y;
-                count += 1;
-            }
+            x += bird.x;
+            y += bird.y;
+            count += 1;
         }
         if count > 0 {
             (x / count as f32, y / count as f32)
@@ -54,13 +50,11 @@ impl Bird {
         let mut y = 0.0;
         let mut count = 0;
         for bird in birds {
-            if (bird.x - self.x).abs() < VISUAL_RANGE && (bird.y - self.y).abs() < VISUAL_RANGE {
-                if (bird.x - self.x).abs() < MIN_DISTANCE && (bird.y - self.y).abs() < MIN_DISTANCE
-                {
-                    x += self.x - bird.x;
-                    y += self.y - bird.y;
-                    count += 1;
-                }
+            let dist = ((bird.x - self.x).powi(2) + (bird.y - self.y).powi(2)).sqrt();
+            if dist < MIN_DISTANCE {
+                x += self.x - bird.x;
+                y += self.y - bird.y;
+                count += 1;
             }
         }
         if count > 0 {
@@ -78,14 +72,12 @@ impl Bird {
             .collect::<Vec<&Bird>>();
 
         // run but when out of bounds continue with velocity instead of hugging wall
-        let (mut ax, mut ay) = self.alignment(&vec_birds_close);
-        ax += 0.1;
-        ay += 0.1;
+        let (ax, ay) = self.alignment(&vec_birds_close);
         let (cx, cy) = self.cohesion(&vec_birds_close);
         let (sx, sy) = self.separation(&vec_birds_close);
         let (tx, ty) = target;
-        self.dx += ax * 0.01 + cx * 0.01 + sx * 0.01 + (tx - self.x) * 0.01;
-        self.dy += ay * 0.01 + cy * 0.01 + sy * 0.01 + (ty - self.y) * 0.01;
+        self.dx += ax * 0.01 + cx * 0.01 + sx * 0.05 + (tx - self.x) * 0.01;
+        self.dy += ay * 0.01 + cy * 0.01 + sy * 0.05 + (ty - self.y) * 0.01;
         let speed = (self.dx * self.dx + self.dy * self.dy).sqrt();
         if speed > SPEED_LIMIT {
             self.dx = self.dx / speed * SPEED_LIMIT;
