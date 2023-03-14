@@ -6,17 +6,23 @@ let greetMsgEl;
 async function greet() {
   
   let canvas = document.getElementById("canvas");
-  let ctx = canvas.getContext("2d");
+  
   setInterval(async () => {
+    let ctx = canvas.getContext("2d");
     let a = await invoke("update_birds");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath();
+ 
+    ctx.canvas.width  = 500;
+    ctx.canvas.height = 500;
+    
     for (let i = 0; i < a.length; i++) {
-      ctx.arc(a[i][0], a[i][1], 1, 0, 2 * Math.PI);
+      ctx.beginPath();
+      ctx.arc(a[i][0], a[i][1], 3, 0, 2 * Math.PI);
       ctx.fillStyle = 'red';
       ctx.stroke();
+
     }
-    
+
   }, 10);
 }
 
