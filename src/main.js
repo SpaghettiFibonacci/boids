@@ -10,8 +10,8 @@ async function greet() {
   
   setInterval(async () => {
     let a = await invoke("update_birds");
-    ctx.canvas.width  = 1000;
-    ctx.canvas.height = 1000;
+    ctx.canvas.width  = 700;
+    ctx.canvas.height = 700;
 
 
     for(let i = 0; i < a.length; i++) {
