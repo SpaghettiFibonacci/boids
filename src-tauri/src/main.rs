@@ -22,7 +22,7 @@ async fn update_birds() -> Vec<Vec<f32>> {
     // println!("update_bird called");
     let mut bird_positions = Vec::new();
     let mut birds = BIRDS.lock().await;
-    if (birds.len() == 0) {
+    if birds.len() == 0 {
         for _i in 0..200 {
             // push bird with random position
             birds.push(models::bird::Bird::new(
@@ -33,7 +33,7 @@ async fn update_birds() -> Vec<Vec<f32>> {
             ));
         }
     }
-    let mut birddies = birds.clone();
+    let birddies = birds.clone();
     for bird in birds.iter_mut() {
         // println!("bird: {:?}", bird);
         bird.run(&birddies, (0.0, 0.0), 700.0, 700.0);

@@ -19,12 +19,9 @@ impl Bird {
         let mut y = 0.0;
         let mut count = 0;
         for bird in birds {
-            let distance = ((bird.x - self.x).powi(2) + (bird.y - self.y).powi(2)).sqrt();
-            if distance < VISUAL_RANGE {
-                x += bird.dx;
-                y += bird.dy;
-                count += 1;
-            }
+            x += bird.dx;
+            y += bird.dy;
+            count += 1;
         }
         if count > 0 {
             (x / count as f32, y / count as f32)
@@ -37,12 +34,9 @@ impl Bird {
         let mut y = 0.0;
         let mut count = 0;
         for bird in birds {
-            let distance = ((bird.x - self.x).powi(2) + (bird.y - self.y).powi(2)).sqrt();
-            if distance < VISUAL_RANGE {
-                x += bird.x;
-                y += bird.y;
-                count += 1;
-            }
+            x += bird.x;
+            y += bird.y;
+            count += 1;
         }
         if count > 0 {
             (x / count as f32, y / count as f32)
@@ -69,7 +63,7 @@ impl Bird {
             (0.0, 0.0)
         }
     }
-    pub fn run(&mut self, birds: &Vec<Bird>, target: (f32, f32), width: f32, height: f32) {
+    pub fn run(&mut self, birds: &[Bird], target: (f32, f32), width: f32, height: f32) {
         let birds_in_visual_range = birds
             .iter()
             .filter(|bird| {
