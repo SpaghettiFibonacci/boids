@@ -10,25 +10,9 @@ async function greet() {
   
   setInterval(async () => {
     let a = await invoke("update_birds");
-    ctx.canvas.width  = 500;
-    ctx.canvas.height = 500;
-    // for every bird in 50 px radius of a bird, add a line
-    // for(let i = 0; i < a.length; i++) {
-    //   for(let j = 0; j < a.length; j++) {
-    //     if(i != j) {
-    //       let dx = a[i][0] - a[j][0];
-    //       let dy = a[i][1] - a[j][1];
-    //       let dist = Math.sqrt(dx*dx + dy*dy);
-    //       if(dist < 50) {
-    //         ctx.beginPath();
-    //         ctx.moveTo(a[i][0], a[i][1]);
-    //         ctx.lineTo(a[j][0], a[j][1]);
-    //         ctx.strokeStyle = `rgb(1,1,1)`;
-    //         ctx.stroke();
-    //       }
-    //     }
-    //   }
-    // }
+    ctx.canvas.width  = 1000;
+    ctx.canvas.height = 1000;
+
 
     for(let i = 0; i < a.length; i++) {
       let count = 0;
@@ -37,7 +21,7 @@ async function greet() {
           let dx = a[i][0] - a[j][0];
           let dy = a[i][1] - a[j][1];
           let dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < 50) {
+          if(dist < 20) {
             count++;
             ctx.beginPath();
             ctx.moveTo(a[i][0], a[i][1]);
@@ -56,14 +40,6 @@ async function greet() {
 
      
     }
-
-
-    // for (let i = 0; i < a.length; i++) {
-    //   ctx.beginPath();
-    //   ctx.arc(a[i][0], a[i][1], 5, 0, 2 * Math.PI);
-    //   // ctx.fillStyle = `rgb(1,1,1)`;
-    //   ctx.fill();
-    // }
 
   }, 10);
 }

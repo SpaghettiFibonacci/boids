@@ -39,7 +39,7 @@ async fn update_birds() -> Vec<Vec<f32>> {
     let mut birddies = birds.clone();
     for bird in birds.iter_mut() {
         // println!("bird: {:?}", bird);
-        bird.run(&birddies, (0.0, 0.0), 500.0, 500.0);
+        bird.run(&birddies, (0.0, 0.0), 1000.0, 1000.0);
         bird_positions.push(vec![bird.x, bird.y]);
     }
 
